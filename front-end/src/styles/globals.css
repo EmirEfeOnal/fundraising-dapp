@@ -1,0 +1,326 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Forest Theme Colors */
+  --forest-primary: #2d5016;
+  --forest-secondary: #3d6b1f;
+  --forest-accent: #4f7f28;
+  --forest-light: #a8d5a8;
+  --forest-dark: #1a3009;
+
+  /* Ocean Theme Colors */
+  --ocean-primary: #1e40af;
+  --ocean-secondary: #2563eb;
+  --ocean-accent: #3b82f6;
+  --ocean-light: #93c5fd;
+  --ocean-dark: #1e3a8a;
+
+  /* Additional Environmental Colors */
+  --earth-brown: #8b4513;
+  --sky-blue: #87ceeb;
+  --leaf-green: #228b22;
+  --coral-orange: #ff7f50;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Forest Theme Classes */
+  .forest-primary {
+    background-color: var(--forest-primary);
+  }
+
+  .forest-secondary {
+    background-color: var(--forest-secondary);
+  }
+
+  .forest-accent {
+    background-color: var(--forest-accent);
+  }
+
+  .text-forest-primary {
+    color: var(--forest-primary);
+  }
+
+  .text-forest-secondary {
+    color: var(--forest-secondary);
+  }
+
+  .text-forest-accent {
+    color: var(--forest-accent);
+  }
+
+  .text-forest-light {
+    color: var(--forest-light);
+  }
+
+  /* Ocean Theme Classes */
+  .ocean-primary {
+    background-color: var(--ocean-primary);
+  }
+
+  .ocean-secondary {
+    background-color: var(--ocean-secondary);
+  }
+
+  .ocean-accent {
+    background-color: var(--ocean-accent);
+  }
+
+  .text-ocean-primary {
+    color: var(--ocean-primary);
+  }
+
+  .text-ocean-secondary {
+    color: var(--ocean-secondary);
+  }
+
+  .text-ocean-accent {
+    color: var(--ocean-accent);
+  }
+
+  .text-ocean-light {
+    color: var(--ocean-light);
+  }
+
+  /* Environmental Animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-wave {
+    animation: wave 4s ease-in-out infinite;
+  }
+
+  .animate-grow {
+    animation: grow 2s ease-out forwards;
+  }
+
+  /* Floating Leaves Animation */
+  .floating-leaves {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .floating-leaves svg {
+    position: absolute;
+    animation: float-leaf 8s linear infinite;
+  }
+
+  /* Environmental Gradients */
+  .bg-forest-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--forest-primary) 0%,
+      var(--forest-secondary) 50%,
+      var(--forest-accent) 100%
+    );
+  }
+
+  .bg-ocean-gradient {
+    background: linear-gradient(135deg, var(--ocean-primary) 0%, var(--ocean-secondary) 50%, var(--ocean-accent) 100%);
+  }
+
+  .bg-nature-gradient {
+    background: linear-gradient(135deg, var(--forest-primary) 0%, var(--ocean-primary) 100%);
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--forest-accent);
+    border-radius: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--forest-primary);
+  }
+
+  /* Environmental Cards */
+  .environmental-card {
+    @apply bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1;
+  }
+
+  .forest-card {
+    @apply environmental-card border-l-4 border-l-forest-primary;
+  }
+
+  .ocean-card {
+    @apply environmental-card border-l-4 border-l-ocean-primary;
+  }
+
+  /* Progress Bars */
+  .progress-bar-forest {
+    background: linear-gradient(90deg, var(--forest-primary) 0%, var(--forest-accent) 100%);
+  }
+
+  .progress-bar-ocean {
+    background: linear-gradient(90deg, var(--ocean-primary) 0%, var(--ocean-accent) 100%);
+  }
+
+  /* Button Styles */
+  .btn-forest {
+    @apply bg-forest-primary hover:bg-forest-secondary text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg;
+  }
+
+  .btn-ocean {
+    @apply bg-ocean-primary hover:bg-ocean-secondary text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg;
+  }
+
+  .btn-nature {
+    background: linear-gradient(135deg, var(--forest-primary) 0%, var(--ocean-primary) 100%);
+    @apply text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg;
+  }
+
+  .btn-nature:hover {
+    background: linear-gradient(135deg, var(--forest-secondary) 0%, var(--ocean-secondary) 100%);
+  }
+}
+
+@layer utilities {
+  /* Environmental Spacing */
+  .section-padding {
+    @apply py-16 lg:py-24;
+  }
+
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Text Utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-environmental {
+    background: linear-gradient(135deg, var(--forest-primary) 0%, var(--ocean-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Keyframe Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+@keyframes wave {
+  0%,
+  100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes float-leaf {
+  0% {
+    transform: translateY(-100vh) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .floating-leaves svg {
+    display: none;
+  }
+
+  .wave-animation {
+    height: 20px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --forest-light: #6b8e5a;
+    --ocean-light: #6b9bd2;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .floating-leaves,
+  .wave-animation {
+    display: none;
+  }
+
+  .environmental-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-wave,
+  .animate-grow,
+  .floating-leaves svg {
+    animation: none;
+  }
+
+  .transform {
+    transform: none !important;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --forest-primary: #000000;
+    --ocean-primary: #000080;
+  }
+}
