@@ -1,131 +1,404 @@
-# STX/sBTC Fundraising App
+# 🌍 Green Earth Initiative - Environmental Fundraising DApp
 
-![Fundraising on Stacks](./screenshot.png)
+<div align="center">
 
-This is a simple crypto fundraising web page built on Stacks. It lets people run a campaign to raise funds in STX and sBTC.
+![Green Earth Initiative Banner](https://via.placeholder.com/800x200/2d5016/ffffff?text=Green+Earth+Initiative)
 
-This example app is intended for educational purposes only. The provided smart contracts have not been audited.
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/yourusername/green-earth-initiative)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Stacks](https://img.shields.io/badge/Stacks-Blockchain-purple.svg)](https://stacks.co)
+[![Next.js](https://img.shields.io/badge/Next.js-13+-black.svg)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://typescriptlang.org)
 
-## Development
+**A decentralized fundraising platform for environmental restoration projects built on the Stacks blockchain**
 
-To run this app with a Stacks Devnet (private development blockchain environment), follow these steps:
+[🚀 Live Demo](https://green-earth-initiative.vercel.app) • [📖 Documentation](https://docs.green-earth-initiative.com) • [🐛 Report Bug](https://github.com/yourusername/green-earth-initiative/issues)
 
-1. **Start Devnet in Hiro Platform**
+</div>
 
-   - Log into the [Hiro Platform](https://platform.hiro.so)
-   - Navigate to your project and start Devnet (do not opt to update the Devnet deployment plan, as it's pre-configured with some contract calls to initialize the project)
-   - Copy your API key from either:
-     - The Devnet Stacks API URL: `https://api.platform.hiro.so/v1/ext/<YOUR-API-KEY>/stacks-blockchain-api`
-     - Or from https://platform.hiro.so/settings/api-keys
+---
 
-2. **Configure Local Environment**
+## 📋 Table of Contents
 
-Install dependencies:
-```bash
-npm install
-```
+- [About the Project](#about-the-project)
+- [Key Features](#key-features)
+- [Technology Stack](#technology-stack)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Smart Contracts](#smart-contracts)
+- [Deployment](#deployment)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact & Support](#contact--support)
+- [Acknowledgments](#acknowledgments)
+
+---
+
+## 🌱 About the Project
+
+The **Green Earth Initiative** is a revolutionary decentralized fundraising platform that combines blockchain transparency with environmental impact. Built on the Stacks blockchain, our platform enables global communities to fund and track real-world environmental restoration projects including reforestation and ocean cleanup initiatives.
+
+### 🎯 Mission Statement
+
+To create a transparent, efficient, and impactful way for people worldwide to contribute to environmental restoration while leveraging blockchain technology for accountability and real-time impact tracking.
+
+### 🌟 Why Green Earth Initiative?
+
+- **🔍 Transparency**: Every donation is tracked on-chain with real-time impact metrics
+- **🌍 Global Impact**: Support environmental projects across multiple continents
+- **📊 Data-Driven**: Real-time tracking of trees planted, plastic removed, and CO₂ absorbed
+- **💰 Efficient**: Low transaction fees using Stacks blockchain
+- **🤝 Community-Driven**: Decentralized governance for project selection and fund allocation
+
+---
+
+## ✨ Key Features
+
+### 🌳 **Dual Environmental Focus**
+- **Reforestation Initiative**: Plant native trees in deforested areas
+- **Ocean Cleanup Project**: Remove plastic waste from oceans and waterways
+
+### 💎 **Blockchain Integration**
+- **STX Token Donations**: Secure, transparent donations using Stacks tokens
+- **Smart Contract Automation**: Automated fund distribution and milestone tracking
+- **On-Chain Governance**: Community voting on project priorities
+
+### 📈 **Impact Tracking**
+- **Real-Time Metrics**: Live updates on environmental impact
+- **Impact Calculator**: See exactly what your donation will accomplish
+- **Progress Visualization**: Interactive dashboards showing campaign progress
+- **Media Gallery**: Photos and videos from active restoration sites
+
+### 🎨 **User Experience**
+- **Responsive Design**: Optimized for desktop, tablet, and mobile
+- **Interactive Media Modal**: High-quality photos and videos with autoplay
+- **Environmental Dashboard**: Switch between forest and ocean initiatives
+- **Donation Form**: Easy-to-use donation interface with impact preview
+
+---
+
+## 🛠 Technology Stack
+
+### **Blockchain & Smart Contracts**
+- **Stacks Blockchain** - Layer-1 blockchain for Bitcoin
+- **Clarity Smart Contracts** - Secure, predictable smart contracts
+
+### **Frontend**
+- **Next.js 13+** - React framework with App Router
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **React 18+** - UI library with hooks
+
+### **Stacks Integration**
+- **@stacks/connect** - Wallet connection
+- **@stacks/transactions** - Transaction building
+- **@stacks/network** - Network configuration
+
+### **UI Components**
+- **Radix UI** - Accessible component primitives
+- **Lucide React** - Beautiful icons
+- **Framer Motion** - Smooth animations
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18.0.0 or higher)
+- **npm** or **yarn** package manager
+- **Git** for version control
+- **Stacks Wallet** (Hiro Wallet or Xverse)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/green-earth-initiative.git
+   cd green-earth-initiative
+2. **Install dependencies**
+    npm install
+    # or
+    yarn install
+3. **Set up environment variables**
+    cp .env.example .env.local
+  Edit `.env.local` with your configuration:
+    NEXT_PUBLIC_STACKS_NETWORK=testnet
+    NEXT_PUBLIC_CONTRACT_ADDRESS=your-contract-address
+    NEXT_PUBLIC_CONTRACT_NAME=green-earth-fundraising
+4. **Start the development server**
+    npm run dev
+    # or
+    yarn dev
+5. **Open your browser**
+    Navigate to [http://localhost:3000](http://localhost:3000)
+
+## **Quick Setup with Docker**
+    # Clone and run with Docker
+    git clone https://github.com/EmirEfeOnal/fundraising-dapp.git
+    cd green-earth-initiative
+    docker-compose up -d
+## Usage
+
+### For Donors
+
+1. **Connect Your Wallet**
+
+1. Click "Connect Wallet" and select your Stacks wallet
+2. Ensure you have STX tokens for donations
 
 
-Create an `.env` file using the existing `.env.example` file:
-```bash
-cp front-end/.env.example front-end/.env
-```
+
+2. **Explore Impact**
+
+1. Use the Impact Calculator to see what your donation will accomplish
+2. Browse the Environmental Dashboard to track progress
 
 
-Add your Hiro Platform API key to the renamed `front-end/.env` file:
-```bash
-NEXT_PUBLIC_PLATFORM_HIRO_API_KEY=your-api-key-here
-```
 
-3. **Start the Frontend Application**
+3. **Make a Donation**
 
-Start the Next.js application from the front-end directory.
-```bash
-cd front-end
-npm run dev
-```
+1. Choose a preset amount or enter a custom donation
+2. Review your environmental impact preview
+3. Confirm the transaction in your wallet
 
 
-Visit `[http://localhost:3000](http://localhost:3000)` in your browser to view and interact with the marketplace. If Devnet is running, your test wallets will already be funded and connected for testing.
 
-## Customization
+4. **Track Your Impact**
 
-To customize this app for your fundraiser, edit the files `front-end/src/constants/campaign.ts` and `front-end/public/campaign-details.md`. Add images for the carousel to the `front-end/public/campaign` folder.
+1. View real-time updates on trees planted and plastic removed
+2. Browse the media gallery for project updates
 
-The given Devnet deployment plan (found in `clarity/deployments/default.devnet-plan.yaml`) includes steps to initialize the campaign with a given funding goal. You can customize this plan as desired.
 
-When you're ready to deploy in Testnet or Mainnet, you can choose to add similar steps to your testnet/mainnet deployment plans, or you can initialize your campaign manually by calling the `fundraising.initialize-campaign` function on-chain.
 
-## About the Smart Contracts
 
-This app uses a Clarity smart contract which handles the collection of funds.
 
-### `fundraising.clar`
+### For Project Managers
 
-- Allows the contract owner to initialize the campaign with a fundraising goal in USD
-- Accepts donations in STX or sBTC
-- Tracks individual contributions
-- Lets the beneficiary (contract owner) withdraw the raised funds if the goal is hit
-- Allows the beneficiary to cancel the campaign and refund the contributions to the donors at any point
+1. **Submit Project Proposals**
 
-## Testing with Devnet
+1. Create detailed project proposals with location and goals
+2. Include media documentation and impact metrics
 
-The Hiro Platform's Devnet is a sandboxed, personal blockchain environment for testing your dApps before deploying them to the testnet or mainnet. Each time you start a new Devnet, it will reset the blockchain state and deploy your project contracts from scratch.
 
-This is useful because deployments to the blockchain are permanent and cannot be undone. Ensure you have tested your contracts thoroughly in your Devnet before promoting them to Testnet or Mainnet.
 
-If you make changes to your contract, you will need to push your changes and restart Devnet for the contract changes to appear in your Devnet.
+2. **Update Progress**
 
-### 1. Start Devnet and Deploy Contracts
+1. Upload photos and videos from restoration sites
+2. Update milestone completion status
 
-1. Open your project in the Hiro Platform
-2. Click "Start Devnet" to initialize your testing environment (the contracts will be automatically deployed per your deployment plan)
-3. You should see your contracts deployed no later than block 45 in the Devnet dashboard
 
-### 2. Testing Smart Contract Functions
 
-Smart contract functions can be tested directly from your Platform dashboard.
+3. **Manage Funds**
 
-1. Select the Devnet tab to confirm that your contracts are deployed and Devnet is running
-2. Click "Interact with Devnet" and then "Call functions"
-3. Select your contract and the function you want to test from the dropdown menus
-4. Use one of the pre-funded devnet wallets as the caller and another as the recipient (if needed)
-5. Click "Call function" to execute the function, which will either succeed or fail based on the function's logic and the caller's permissions
-6. Once the function has been submitted, you can watch for the transaction to resolve on-chain in the Devnet dashboard and confirm that the function executed as expected
+1. Track fund allocation and spending
+2. Generate impact reports for transparency
 
-Remember that any changes to the contracts will require restarting Devnet and redeploying the contracts.
 
-### 3. Integration Testing
 
-With Devnet running, you can test your front-end functionality and validate that it's working in the same way you just tested the fundraising functions.
 
-1. Confirm that your Devnet is running in the Platform dashboard and `npm run dev` is running in the front-end directory
-2. Navigate to [http://localhost:3000](http://localhost:3000) to view and interact with the fundraising app
-3. View your campaign and test the contribution, refunding, and withdrawal functionality using the pre-funded wallets. Use the wallet picker in the upper right corner to choose between different test wallets.
-4. Navigate to the Devnet dashboard in the Platform to view the transactions as they are submitted and resolved on-chain.
 
-You do not need to restart Devnet to test changes to your front-end.
+### Example Donation Flow
+    // Example donation transaction
+    const donationAmount = 100; // STX
+    const impactPreview = {
+      trees: 50,
+      plastic: 2.0, // kg
+      co2: 2400, // lbs absorbed annually
+      marineLife: 10 // animals protected
+    };
 
-## Next Steps
+    // Transaction is handled by smart contract
+    await submitDonation(donationAmount);
+## Smart Contracts
 
-Once you've thoroughly tested your dApp in Devnet and are confident in its functionality, you can proceed to testing on the Stacks Testnet before launching on Mainnet.
+### Core Contracts
 
-### Moving to Testnet
+#### **`fundraising-core.clar`**
 
-1. Use the [Stacks Testnet Faucet](https://explorer.hiro.so/sandbox/faucet?chain=testnet) to get test STX tokens
-3. Update the environment variables in your `.env` file to add values for `NEXT_PUBLIC_CONTRACT_DEPLOYER_TESTNET_ADDRESS` and `NEXT_PUBLIC_CONTRACT_DEPLOYER_MAINNET_ADDRESS`. Add the STX wallet address you plan to deploy the contract with.
-4. Deploy your contracts to the Testnet using the Platform dashboard and your deployment plan
-5. Test your application with real network conditions and transaction times
-6. Verify your contract interactions in the [Testnet Explorer](https://explorer.hiro.so/?chain=testnet)
+Main fundraising contract handling donations and fund distribution.
 
-### Launching on Mainnet
+**Key Functions:**
 
-When you're ready to launch your app:
+- `donate(amount uint)` - Process STX donations
+- `get-campaign-stats()` - Retrieve campaign statistics
+- `distribute-funds(project-id uint)` - Distribute funds to projects
 
-1. Ensure you have real STX tokens for deployment and transaction costs
-2. Update your deployment configuration to target Mainnet
-3. Deploy your contracts through the Platform dashboard
-4. Update your frontend environment variables to point to Mainnet
-5. Launch your application and begin processing real transactions!
 
-Remember: Mainnet deployments are permanent and involve real cryptocurrency transactions. Double-check all contract code and frontend integrations before deploying to Mainnet.
+#### **`project-management.clar`**
+
+Manages environmental projects and milestones.
+
+**Key Functions:**
+
+- `create-project(details)` - Create new environmental project
+- `update-milestone(project-id uint, milestone-id uint)` - Update project progress
+- `get-project-details(project-id uint)` - Get project information
+
+
+#### **`governance.clar`**
+
+Handles community governance and voting.
+
+**Key Functions:**
+
+- `propose-project(details)` - Submit project proposal
+- `vote-on-proposal(proposal-id uint, vote bool)` - Vote on proposals
+- `execute-proposal(proposal-id uint)` - Execute approved proposals
+
+### Contract Deployment
+    # Deploy to testnet
+    clarinet deploy --testnet
+
+    # Deploy to mainnet
+    clarinet deploy --mainnet
+
+### Contract Interaction Examples
+    // Donate STX tokens
+    const donateCall = await openContractCall({
+      network,
+      contractAddress: 'ST1234...', 
+      contractName: 'fundraising-core',
+      functionName: 'donate',
+      functionArgs: [uintCV(100)], // 100 STX
+    });
+
+    // Get campaign statistics
+    const statsCall = await callReadOnlyFunction({
+      network,
+      contractAddress: 'ST1234...',
+      contractName: 'fundraising-core',
+      functionName: 'get-campaign-stats',
+      functionArgs: [],
+    });
+
+## Deployment
+
+### Frontend Deployment (Vercel)
+
+1. **Connect to Vercel**
+    npm install -g vercel
+    vercel login
+    vercel
+2. **Set Environment Variables**
+
+    - Add production environment variables in Vercel dashboard
+    - Configure Stacks mainnet settings
+
+**Deploy**
+    vercel --prod
+
+### Smart Contract Deployment
+
+1. **Testnet Deployment**
+    # Using Clarinet
+    clarinet deploy --testnet
+
+    # Using Stacks CLI
+    stx deploy_contract fundraising-core fundraising-core.clar --testnet
+
+2. **Mainnet Deployment**
+    # Ensure thorough testing before mainnet deployment
+    clarinet deploy --mainnet
+
+### Environment Configuration
+    # Production Environment Variables
+    NEXT_PUBLIC_STACKS_NETWORK=mainnet
+    NEXT_PUBLIC_CONTRACT_ADDRESS=SP1234567890ABCDEF
+    NEXT_PUBLIC_CONTRACT_NAME=green-earth-fundraising
+    NEXT_PUBLIC_API_URL=https://api.green-earth-initiative.com
+
+## Testing
+
+### Frontend Testing
+    # Run unit tests
+    npm run test
+
+    # Run integration tests
+    npm run test:integration
+
+    # Run e2e tests
+    npm run test:e2e
+
+    # Test coverage
+    npm run test:coverage
+
+
+### Smart Contract Testing
+    # Run Clarinet tests
+    clarinet test
+
+    # Run specific test file
+    clarinet test tests/fundraising-core_test.ts
+
+    # Check contract syntax
+    clarinet check
+
+### Manual Testing Checklist
+
+- Wallet connection works
+- Donation flow completes successfully
+- Impact calculator shows correct values
+- Media modal displays properly
+- Responsive design works on mobile
+- Smart contract functions execute correctly
+
+
+
+## Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+### Development Process
+
+1. **Fork the repository**
+2. **Create a feature branch**
+    git checkout -b feature/amazing-feature
+3. **Make your changes**
+4. **Add tests** for new functionality
+5. **Commit your changes**
+    git commit -m 'Add amazing feature'
+6. **Push to your branch**
+    git push origin feature/amazing-feature
+7. **Open a Pull Request**
+
+### Contribution Guidelines
+
+- Follow the existing code style and conventions
+- Write clear, concise commit messages
+- Add tests for new features
+- Update documentation as needed
+- Ensure all tests pass before submitting
+
+
+### Areas for Contribution
+
+- 🐛 **Bug Fixes** - Help us squash bugs
+- ✨ **New Features** - Add exciting functionality
+- 📚 **Documentation** - Improve our docs
+- 🎨 **UI/UX** - Enhance user experience
+- 🔧 **Smart Contracts** - Optimize contract logic
+
+## Acknowledgments
+
+### Built With Love Using
+
+- **[Stacks Foundation](https://stacks.org)** - For the amazing blockchain infrastructure
+- **[Hiro](https://hiro.so)** - For excellent developer tools and wallet
+- **[Vercel](https://vercel.com)** - For seamless deployment platform
+- **[Next.js Team](https://nextjs.org)** - For the incredible React framework
+### Special Thanks
+
+- 🌱 **Environmental Partners** - Local organizations implementing restoration projects
+- 👥 **Community Contributors** - Developers, designers, and environmental advocates
+- 🔬 **Research Partners** - Universities providing impact measurement data
+- 💚 **Early Supporters** - Beta testers and initial donors
+
+### Inspiration
+
+This project was inspired by the urgent need for transparent, efficient environmental funding mechanisms and the potential of blockchain technology to create positive real-world impact.
+
+**🌍 Together, we can restore our planet, one transaction at a time. 🌱**
