@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { TreePine, Waves, Heart, Calculator, CheckCircle, AlertCircle, Wallet } from "lucide-react"
 import { useWallet } from "./WalletProvider"
+import { calculateImpact, getNetworkInfo } from "../lib/donation-utils"
 
 interface DonationImpact {
   trees: number
@@ -11,7 +12,7 @@ interface DonationImpact {
   marineLife: number
 }
 
-export default function DonationForm() {
+export default function DonationFormWithWallet() {
   const [amount, setAmount] = useState<number>(100)
   const [customAmount, setCustomAmount] = useState<string>("")
   const [isCustom, setIsCustom] = useState<boolean>(false)
@@ -21,7 +22,7 @@ export default function DonationForm() {
   const [message, setMessage] = useState<string>("")
   const [isClient, setIsClient] = useState(false)
 
-  const { isConnected, userAddress } = useWallet()
+  const { isConnected, userAddress, connectWallet } = useWallet()
   const presetAmounts = [25, 50, 100, 250, 500, 1000]
 
   // Hydration-safe client detection
@@ -33,17 +34,7 @@ export default function DonationForm() {
     if (!isClient) return
 
     const currentAmount = isCustom ? Number.parseFloat(customAmount) || 0 : amount
-    const treesPerSTX = 0.5
-    const plasticPerSTX = 0.02
-    const co2PerTree = 48
-    const marineLifePerKg = 5
-
-    const trees = Math.floor(currentAmount * treesPerSTX)
-    const plastic = Number((currentAmount * plasticPerSTX).toFixed(2))
-    const co2 = Math.floor(trees * co2PerTree)
-    const marineLife = Math.floor(plastic * marineLifePerKg)
-
-    setImpact({ trees, plastic, co2, marineLife })
+    setImpact(calculateImpact(currentAmount))
   }, [amount, customAmount, isCustom, isClient])
 
   const handlePresetClick = (presetAmount: number) => {
@@ -60,7 +51,7 @@ export default function DonationForm() {
   const handleDonate = async () => {
     if (!isConnected) {
       setDonationStatus("error")
-      setMessage("Please connect your wallet first.")
+      setMessage("Please connect your Hiro wallet first.")
       return
     }
 
@@ -70,7 +61,8 @@ export default function DonationForm() {
     try {
       const finalAmount = isCustom ? Number.parseFloat(customAmount) : amount
 
-      // Simulate donation process (replace with actual Stacks integration later)
+      // TODO: Implement actual Stacks transaction here
+      // For now, simulate the donation process
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
       setDonationStatus("success")
@@ -119,13 +111,19 @@ export default function DonationForm() {
               {/* Wallet Connection Status */}
               {!isConnected && (
                 <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 mb-4">
                     <Wallet className="w-5 h-5 text-yellow-600" />
                     <div>
-                      <p className="font-semibold text-yellow-800">Wallet Required</p>
+                      <p className="font-semibold text-yellow-800">Hiro Wallet Required</p>
                       <p className="text-sm text-yellow-700">Connect your Stacks wallet to make a donation</p>
                     </div>
                   </div>
+                  <button
+                    onClick={connectWallet}
+                    className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all"
+                  >
+                    Connect Hiro Wallet
+                  </button>
                 </div>
               )}
 
@@ -183,7 +181,7 @@ export default function DonationForm() {
                 }`}
               >
                 {!isConnected ? (
-                  "Connect Wallet to Donate"
+                  "Connect Hiro Wallet to Donate"
                 ) : isLoading ? (
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -217,11 +215,14 @@ export default function DonationForm() {
               {/* Connected Wallet Info */}
               {isConnected && (
                 <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-xl">
-                  <div className="flex items-center gap-2 text-sm text-green-700">
-                    <Wallet className="w-4 h-4" />
-                    <span>
-                      Connected: {userAddress.slice(0, 8)}...{userAddress.slice(-4)}
-                    </span>
+                  <div className="flex items-center justify-between text-sm text-green-700">
+                    <div className="flex items-center gap-2">
+                      <Wallet className="w-4 h-4" />
+                      <span>
+                        Connected: {userAddress.slice(0, 8)}...{userAddress.slice(-4)}
+                      </span>
+                    </div>
+                    <span className="text-xs text-green-600">{getNetworkInfo().name}</span>
                   </div>
                 </div>
               )}
@@ -276,29 +277,41 @@ export default function DonationForm() {
                 )}
               </div>
 
-              {/* Additional Impact Info */}
+              {/* Hiro Wallet Info */}
               <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl p-6 border">
-                <h4 className="font-semibold text-gray-900 mb-4">How Your Donation Helps</h4>
+                <h4 className="font-semibold text-gray-900 mb-4">About Hiro Wallet</h4>
                 <div className="space-y-3 text-sm text-gray-600">
                   <div className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-green-600 rounded-full mt-2 flex-shrink-0"></div>
                     <p>
-                      <strong>60% goes to reforestation:</strong> Tree seedlings, planting, and 3-year maintenance
+                      <strong>Secure:</strong> Your private keys never leave your device
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
                     <p>
-                      <strong>40% goes to ocean cleanup:</strong> Equipment, boats, and plastic processing
+                      <strong>Stacks Native:</strong> Built specifically for the Stacks blockchain
                     </p>
                   </div>
                   <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-purple-600 rounded-full mt-2 flex-shrink-0"></div>
                     <p>
-                      <strong>Transparent tracking:</strong> Real-time updates on your impact
+                      <strong>Easy to Use:</strong> Simple interface for managing STX and other tokens
                     </p>
                   </div>
                 </div>
+                {!isConnected && (
+                  <div className="mt-4">
+                    <a
+                      href="https://wallet.hiro.so/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                    >
+                      Download Hiro Wallet →
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -1,19 +1,30 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type React from "react"
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { WalletProvider } from "../components/WalletProvider"
+import { ErrorBoundary } from "../components/ErrorBoundary"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: 'Emir Efe Önal - RiseIn',
-  description: 'Vibe On Stacks Workshop project',
+  title: "Green Earth Initiative - Environmental Fundraising DApp",
+  description:
+    "A decentralized fundraising platform for environmental restoration projects built on the Stacks blockchain",
 }
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={inter.className}>
+        <ErrorBoundary>
+          <WalletProvider>{children}</WalletProvider>
+        </ErrorBoundary>
+      </body>
     </html>
   )
 }
