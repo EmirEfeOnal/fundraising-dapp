@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getHiroApiHeaders, HIRO_API_URL } from "../../../../../lib/stacks-config"
 
-export async function GET(request: NextRequest, { params }: { params: { txId: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ txId: string }> }) {
   try {
-    const { txId } = params
+    const { txId } = await params
     const headers = getHiroApiHeaders()
 
     const response = await fetch(`${HIRO_API_URL}/extended/v1/tx/${txId}`, {

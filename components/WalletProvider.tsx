@@ -10,6 +10,7 @@ interface WalletContextType {
   isLoading: boolean
   connectWallet: () => void
   disconnectWallet: () => void
+  clearSession: () => void
   userSession: UserSession
 }
 
@@ -23,42 +24,123 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [userAddress, setUserAddress] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
+  // Clear corrupted session data
+  const clearSession = () => {
+    try {
+      console.log("Clearing session data...")
+      userSession.signUserOut()
+      localStorage.removeItem("blockstack-session")
+      localStorage.removeItem("stacks-session")
+      localStorage.removeItem("connect-session")
+      setIsConnected(false)
+      setUserAddress("")
+      console.log("Session cleared successfully")
+    } catch (error) {
+      console.error("Error clearing session:", error)
+    }
+  }
+
+  // Safe session check with error handling
+  const checkSession = () => {
+    try {
+      console.log("Checking session state...")
+
+      // Check if user is signed in safely
+      if (userSession.isUserSignedIn()) {
+        console.log("User is signed in, loading data...")
+        const userData = userSession.loadUserData()
+
+        // Validate userData structure
+        if (userData && userData.profile && userData.profile.stxAddress) {
+          const address = userData.profile.stxAddress.testnet || userData.profile.stxAddress.mainnet
+          if (address) {
+            setIsConnected(true)
+            setUserAddress(address)
+            console.log("Session restored successfully:", address)
+          } else {
+            console.warn("No valid address found in session")
+            clearSession()
+          }
+        } else {
+          console.warn("Invalid user data structure")
+          clearSession()
+        }
+      } else {
+        console.log("User not signed in")
+        setIsConnected(false)
+        setUserAddress("")
+      }
+    } catch (error) {
+      console.error("Session check error:", error)
+      console.log("Clearing corrupted session...")
+      clearSession()
+    }
+  }
+
   useEffect(() => {
-    // Check if user is already signed in
-    if (userSession.isSignInPending()) {
-      userSession.handlePendingSignIn().then((userData) => {
-        setIsConnected(true)
-        setUserAddress(userData.profile.stxAddress.testnet || userData.profile.stxAddress.mainnet)
-      })
-    } else if (userSession.isUserSignedIn()) {
-      setIsConnected(true)
-      const userData = userSession.loadUserData()
-      setUserAddress(userData.profile.stxAddress.testnet || userData.profile.stxAddress.mainnet)
+    try {
+      // Handle pending sign in
+      if (userSession.isSignInPending()) {
+        console.log("Handling pending sign in...")
+        setIsLoading(true)
+
+        userSession
+          .handlePendingSignIn()
+          .then((userData) => {
+            console.log("Sign in completed:", userData)
+            if (userData && userData.profile && userData.profile.stxAddress) {
+              const address = userData.profile.stxAddress.testnet || userData.profile.stxAddress.mainnet
+              setIsConnected(true)
+              setUserAddress(address)
+            }
+          })
+          .catch((error) => {
+            console.error("Error handling pending sign in:", error)
+            clearSession()
+          })
+          .finally(() => {
+            setIsLoading(false)
+          })
+      } else {
+        // Check existing session
+        checkSession()
+      }
+    } catch (error) {
+      console.error("Wallet provider initialization error:", error)
+      clearSession()
     }
   }, [])
 
   const connectWallet = () => {
-    setIsLoading(true)
-    showConnect({
-      appDetails: getAppDetails(),
-      redirectTo: "/",
-      onFinish: () => {
-        setIsLoading(false)
-        setIsConnected(true)
-        const userData = userSession.loadUserData()
-        setUserAddress(userData.profile.stxAddress.testnet || userData.profile.stxAddress.mainnet)
-      },
-      onCancel: () => {
-        setIsLoading(false)
-      },
-      userSession,
-    })
+    try {
+      setIsLoading(true)
+      showConnect({
+        appDetails: getAppDetails(),
+        redirectTo: "/",
+        onFinish: () => {
+          console.log("Wallet connection finished")
+          setIsLoading(false)
+          checkSession()
+        },
+        onCancel: () => {
+          console.log("Wallet connection cancelled")
+          setIsLoading(false)
+        },
+        userSession,
+      })
+    } catch (error) {
+      console.error("Error connecting wallet:", error)
+      setIsLoading(false)
+    }
   }
 
   const disconnectWallet = () => {
-    userSession.signUserOut()
-    setIsConnected(false)
-    setUserAddress("")
+    try {
+      console.log("Disconnecting wallet...")
+      clearSession()
+    } catch (error) {
+      console.error("Error disconnecting wallet:", error)
+    }
   }
 
   return (
@@ -69,6 +151,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         isLoading,
         connectWallet,
         disconnectWallet,
+        clearSession,
         userSession,
       }}
     >

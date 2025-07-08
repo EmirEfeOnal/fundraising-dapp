@@ -1,9 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getHiroApiHeaders, HIRO_API_URL } from "../../../../../lib/stacks-config"
 
-export async function GET(request: NextRequest, { params }: { params: { address: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ address: string }> }) {
   try {
-    const { address } = params
+    const { address } = await params
     const { searchParams } = new URL(request.url)
     const limit = searchParams.get("limit") || "20"
 

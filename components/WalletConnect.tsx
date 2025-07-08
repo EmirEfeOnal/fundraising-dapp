@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { Wallet, LogOut, User, Copy, Check } from "lucide-react"
+import { Wallet, LogOut, User, Copy, Check, AlertTriangle } from "lucide-react"
 import { useWallet } from "./WalletProvider"
 
 export default function WalletConnect() {
-  const { isConnected, userAddress, isLoading, connectWallet, disconnectWallet } = useWallet()
+  const { isConnected, userAddress, isLoading, connectWallet, disconnectWallet, clearSession } = useWallet()
   const [copied, setCopied] = useState(false)
+  const [showSessionError, setShowSessionError] = useState(false)
 
   const copyAddress = async () => {
     try {
@@ -21,6 +22,20 @@ export default function WalletConnect() {
   const formatAddress = (address: string) => {
     if (!address) return ""
     return `${address.slice(0, 6)}...${address.slice(-4)}`
+  }
+
+  const handleConnect = () => {
+    try {
+      connectWallet()
+    } catch (error) {
+      console.error("Connection error:", error)
+      setShowSessionError(true)
+    }
+  }
+
+  const handleClearSession = () => {
+    clearSession()
+    setShowSessionError(false)
   }
 
   if (isConnected) {
@@ -58,20 +73,34 @@ export default function WalletConnect() {
   }
 
   return (
-    <button
-      onClick={connectWallet}
-      disabled={isLoading}
-      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-    >
-      <Wallet className="w-5 h-5" />
-      {isLoading ? (
-        <>
-          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-          <span>Connecting...</span>
-        </>
-      ) : (
-        <span>Connect Hiro Wallet</span>
+    <div className="flex items-center gap-2">
+      <button
+        onClick={handleConnect}
+        disabled={isLoading}
+        className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+      >
+        <Wallet className="w-5 h-5" />
+        {isLoading ? (
+          <>
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <span>Connecting...</span>
+          </>
+        ) : (
+          <span>Connect Hiro Wallet</span>
+        )}
+      </button>
+
+      {/* Session Error Handler */}
+      {showSessionError && (
+        <button
+          onClick={handleClearSession}
+          className="flex items-center gap-2 px-4 py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 rounded-xl border border-yellow-200 transition-colors"
+          title="Clear corrupted session data"
+        >
+          <AlertTriangle className="w-4 h-4" />
+          <span className="hidden sm:inline">Fix Session</span>
+        </button>
       )}
-    </button>
+    </div>
   )
 }

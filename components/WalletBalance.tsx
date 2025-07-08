@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Wallet, RefreshCw, Eye, EyeOff, AlertCircle } from "lucide-react"
+import { Wallet, RefreshCw, Eye, EyeOff, AlertCircle, TrendingUp } from "lucide-react"
 import { useWallet } from "./WalletProvider"
 import { useAccountBalance } from "../hooks/useHiroApi"
 import { formatSTXAmount } from "../lib/hiro-api"
@@ -85,31 +85,58 @@ export default function WalletBalance() {
           </button>
         </div>
       ) : (
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-gray-600">STX Balance</span>
-            <span className="font-bold text-lg">{showBalance ? `${formattedBalance} STX` : "••••••"}</span>
+        <div className="space-y-4">
+          {/* Main STX Balance */}
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-green-600" />
+                <span className="font-semibold text-gray-700">STX Balance</span>
+              </div>
+              <span className="text-xs text-gray-500">Testnet</span>
+            </div>
+            <div className="text-3xl font-bold text-gray-900 mb-1">
+              {showBalance ? `${formattedBalance} STX` : "••••••"}
+            </div>
+            <div className="text-sm text-gray-600">
+              ≈ ${showBalance ? ((stxBalance / 1000000) * 0.5).toFixed(2) : "••••"} USD
+            </div>
           </div>
 
+          {/* Balance Breakdown */}
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="bg-gray-50 rounded-lg p-3">
+              <div className="text-gray-600 mb-1">Available</div>
+              <div className="font-semibold">
+                {showBalance ? formatSTXAmount(Number.parseInt(balance?.stx?.balance || "0")) : "••••••"}
+              </div>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-3">
+              <div className="text-gray-600 mb-1">Locked</div>
+              <div className="font-semibold">
+                {showBalance ? formatSTXAmount(Number.parseInt(balance?.stx?.locked || "0")) : "••••••"}
+              </div>
+            </div>
+          </div>
+
+          {/* Other Tokens */}
           {balance?.fungible_tokens && Object.keys(balance.fungible_tokens).length > 0 && (
             <div className="pt-3 border-t border-gray-200">
-              <p className="text-sm text-gray-600 mb-2">Other Tokens</p>
+              <p className="text-sm font-semibold text-gray-700 mb-2">Other Tokens</p>
               {Object.entries(balance.fungible_tokens).map(([token, data]: [string, any]) => (
-                <div key={token} className="flex items-center justify-between text-sm">
+                <div key={token} className="flex items-center justify-between text-sm py-1">
                   <span className="text-gray-600">{token.split("::")[1] || token}</span>
-                  <span>{showBalance ? data.balance : "••••••"}</span>
+                  <span className="font-medium">{showBalance ? data.balance : "••••••"}</span>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Debug Info (only in development) */}
-          {process.env.NODE_ENV === "development" && (
-            <div className="mt-4 p-2 bg-gray-50 rounded text-xs">
-              <p>Debug: Balance loaded successfully</p>
-              <p>STX: {balance?.stx?.balance || "0"} microSTX</p>
-            </div>
-          )}
+          {/* Success Indicator */}
+          <div className="flex items-center gap-2 text-xs text-green-600 bg-green-50 rounded-lg p-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span>Balance loaded successfully via Hiro API</span>
+          </div>
         </div>
       )}
     </div>

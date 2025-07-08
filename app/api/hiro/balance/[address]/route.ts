@@ -1,16 +1,15 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { getHiroApiHeaders, HIRO_API_URL, isHiroApiConfigured } from "../../../../../lib/stacks-config"
 
-export async function GET(request: NextRequest, { params }: { params: { address: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ address: string }> }) {
   try {
-    console.log("Balance API route called for address:", params.address)
+    const { address } = await params
+    console.log("Balance API route called for address:", address)
 
     if (!isHiroApiConfigured()) {
       console.log("API key not configured")
       return NextResponse.json({ error: "Hiro API key not configured" }, { status: 400 })
     }
-
-    const { address } = params
 
     // Validate address format (basic Stacks address validation)
     if (!address || (!address.startsWith("ST") && !address.startsWith("SP"))) {
