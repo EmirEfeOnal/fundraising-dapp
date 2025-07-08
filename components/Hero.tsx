@@ -109,12 +109,16 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
+              <a
+                href="#donate" 
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
                 Start Donating
-              </button>
-              <button className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-xl font-semibold transition-all backdrop-blur-sm">
+              </a>
+              <a 
+                href="#dashboard"
+                className="border-2 border-white/30 text-white hover:bg-white/10 px-8 py-4 rounded-xl font-semibold transition-all backdrop-blur-sm">
                 View Impact
-              </button>
+              </a>
             </div>
           </div>
 

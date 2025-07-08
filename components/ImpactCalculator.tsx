@@ -160,9 +160,12 @@ export default function ImpactCalculator() {
 
               {/* Call to Action */}
               <div className="mt-8 text-center">
-                <button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg">
+                <a
+                  href="#donate"
+                  className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg inline-block"
+                >
                   Donate {donationAmount} STX & Make This Impact
-                </button>
+                </a>
                 <p className="text-gray-600 text-sm mt-4">Your donation will be split 60% trees, 40% ocean cleanup</p>
               </div>
             </div>

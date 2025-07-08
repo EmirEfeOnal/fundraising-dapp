@@ -4,6 +4,10 @@ import { useState, useEffect } from "react"
 import { TreePine, Waves, Heart, Calculator, CheckCircle, AlertCircle, Wallet } from "lucide-react"
 import { useWallet } from "./WalletProvider"
 import { calculateImpact, getNetworkInfo } from "../lib/donation-utils"
+import { openSTXTransfer } from "@stacks/connect"
+import { StacksTestnet } from "@stacks/network"
+
+const DONATION_ADDRESS = "ST3MDE468B4NC0VGW953ENFS01E6EH9AWT34YNKS4"
 
 interface DonationImpact {
   trees: number
@@ -61,15 +65,28 @@ export default function DonationFormWithWallet() {
     try {
       const finalAmount = isCustom ? Number.parseFloat(customAmount) : amount
 
-      // TODO: Implement actual Stacks transaction here
-      // For now, simulate the donation process
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      setDonationStatus("success")
-      setMessage(
-        `Thank you! Your ${finalAmount} STX donation will plant ${impact.trees} trees and remove ${impact.plastic}kg of ocean plastic. Transaction processing...`,
+      openSTXTransfer({
+        recipient: DONATION_ADDRESS,
+        amount: (finalAmount * 1_000_000).toString(), // STX → microstacks
+        network: new StacksTestnet(),
+        appDetails: {
+          name: "Green Earth Initiative",
+          icon: typeof window !== "undefined" ? window.location.origin + "/icon.png" : "",
+        },
+        onFinish: (data) => {
+          console.log("Transaction broadcasted:", data.txId)
+          setDonationStatus("success")
+          setMessage(
+          `Thank you! Your ${finalAmount} STX donation will plant ${impact.trees} trees and remove ${impact.plastic}kg of ocean plastic.`,
       )
-      setIsLoading(false)
+          setIsLoading(false)
+        },
+        onCancel: () => {
+          setDonationStatus("error")
+          setMessage("Donation cancelled.")
+          setIsLoading(false)
+        },
+      })
     } catch (error) {
       console.error("Donation error:", error)
       setDonationStatus("error")
